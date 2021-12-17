@@ -1,0 +1,4 @@
+build_deps:
+  mbedtls:
+    local: ../zig-mbedtls
+    root: mbedtls.zig
