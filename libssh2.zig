@@ -35,11 +35,20 @@ const srcs = &.{
 pub const include_dir = root_path ++ "libssh2/include";
 const config_dir = root_path ++ "config";
 
+pub const Library = struct {
+    step: *std.build.LibExeObjStep,
+
+    pub fn link(self: Library, other: *std.build.LibExeObjStep) void {
+        other.addIncludeDir(include_dir);
+        other.linkLibrary(self.step);
+    }
+};
+
 pub fn create(
     b: *std.build.Builder,
     target: std.zig.CrossTarget,
     mode: std.builtin.Mode,
-) *std.build.LibExeObjStep {
+) Library {
     var ret = b.addStaticLibrary("ssh2", null);
     ret.setTarget(target);
     ret.setBuildMode(mode);
@@ -84,5 +93,5 @@ pub fn create(
         ret.defineCMacro("HAVE_O_NONBLOCK", null);
     }
 
-    return ret;
+    return Library{ .step = ret };
 }
