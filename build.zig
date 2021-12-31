@@ -10,4 +10,7 @@ pub fn build(b: *std.build.Builder) void {
     const ssh2 = libssh2.create(b, target, mode);
     tls.link(ssh2);
     ssh2.install();
+
+    const test_step = b.step("test", "fake test step for now");
+    _ = test_step;
 }
