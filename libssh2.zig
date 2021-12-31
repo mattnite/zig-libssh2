@@ -14,36 +14,36 @@ fn pathJoinRoot(comptime components: []const []const u8) []const u8 {
 
 const srcs = blk: {
     var ret = &.{
-        pathJoinRoot(&.{ "c", "src", "channel.c" }),
-        pathJoinRoot(&.{ "c", "src", "comp.c" }),
-        pathJoinRoot(&.{ "c", "src", "crypt.c" }),
-        pathJoinRoot(&.{ "c", "src", "hostkey.c" }),
-        pathJoinRoot(&.{ "c", "src", "kex.c" }),
-        pathJoinRoot(&.{ "c", "src", "mac.c" }),
-        pathJoinRoot(&.{ "c", "src", "misc.c" }),
-        pathJoinRoot(&.{ "c", "src", "packet.c" }),
-        pathJoinRoot(&.{ "c", "src", "publickey.c" }),
-        pathJoinRoot(&.{ "c", "src", "scp.c" }),
-        pathJoinRoot(&.{ "c", "src", "session.c" }),
-        pathJoinRoot(&.{ "c", "src", "sftp.c" }),
-        pathJoinRoot(&.{ "c", "src", "userauth.c" }),
-        pathJoinRoot(&.{ "c", "src", "transport.c" }),
-        pathJoinRoot(&.{ "c", "src", "version.c" }),
-        pathJoinRoot(&.{ "c", "src", "knownhost.c" }),
-        pathJoinRoot(&.{ "c", "src", "agent.c" }),
-        pathJoinRoot(&.{ "c", "src", "mbedtls.c" }),
-        pathJoinRoot(&.{ "c", "src", "pem.c" }),
-        pathJoinRoot(&.{ "c", "src", "keepalive.c" }),
-        pathJoinRoot(&.{ "c", "src", "global.c" }),
-        pathJoinRoot(&.{ "c", "src", "blowfish.c" }),
-        pathJoinRoot(&.{ "c", "src", "bcrypt_pbkdf.c" }),
-        pathJoinRoot(&.{ "c", "src", "agent_win.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "channel.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "comp.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "crypt.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "hostkey.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "kex.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "mac.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "misc.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "packet.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "publickey.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "scp.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "session.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "sftp.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "userauth.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "transport.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "version.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "knownhost.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "agent.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "mbedtls.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "pem.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "keepalive.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "global.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "blowfish.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "bcrypt_pbkdf.c" }),
+        pathJoinRoot(&.{ "libssh2", "src", "agent_win.c" }),
     };
 
     break :blk ret;
 };
 
-pub const include_dir = pathJoinRoot(&.{ "c", "include" });
+pub const include_dir = pathJoinRoot(&.{ "libssh2", "include" });
 const config_dir = pathJoinRoot(&.{"config"});
 
 pub fn create(
