@@ -1,60 +1,44 @@
 const std = @import("std");
 
 fn root() []const u8 {
-    return std.fs.path.dirname(@src().file) orelse ".";
+    return std.fs.path.dirname(@src().file) orelse unreachable;
 }
 
-fn pathJoinRoot(comptime components: []const []const u8) []const u8 {
-    var ret = root();
-    inline for (components) |component|
-        ret = ret ++ std.fs.path.sep_str ++ component;
-
-    return ret;
-}
-
-const srcs = blk: {
-    var ret = &.{
-        pathJoinRoot(&.{ "c", "src", "channel.c" }),
-        pathJoinRoot(&.{ "c", "src", "comp.c" }),
-        pathJoinRoot(&.{ "c", "src", "crypt.c" }),
-        pathJoinRoot(&.{ "c", "src", "hostkey.c" }),
-        pathJoinRoot(&.{ "c", "src", "kex.c" }),
-        pathJoinRoot(&.{ "c", "src", "mac.c" }),
-        pathJoinRoot(&.{ "c", "src", "misc.c" }),
-        pathJoinRoot(&.{ "c", "src", "packet.c" }),
-        pathJoinRoot(&.{ "c", "src", "publickey.c" }),
-        pathJoinRoot(&.{ "c", "src", "scp.c" }),
-        pathJoinRoot(&.{ "c", "src", "session.c" }),
-        pathJoinRoot(&.{ "c", "src", "sftp.c" }),
-        pathJoinRoot(&.{ "c", "src", "userauth.c" }),
-        pathJoinRoot(&.{ "c", "src", "transport.c" }),
-        pathJoinRoot(&.{ "c", "src", "version.c" }),
-        pathJoinRoot(&.{ "c", "src", "knownhost.c" }),
-        pathJoinRoot(&.{ "c", "src", "agent.c" }),
-        pathJoinRoot(&.{ "c", "src", "mbedtls.c" }),
-        pathJoinRoot(&.{ "c", "src", "pem.c" }),
-        pathJoinRoot(&.{ "c", "src", "keepalive.c" }),
-        pathJoinRoot(&.{ "c", "src", "global.c" }),
-        pathJoinRoot(&.{ "c", "src", "blowfish.c" }),
-        pathJoinRoot(&.{ "c", "src", "bcrypt_pbkdf.c" }),
-        pathJoinRoot(&.{ "c", "src", "agent_win.c" }),
-    };
-
-    break :blk ret;
+const root_path = root() ++ "/";
+const srcs = &.{
+    root_path ++ "libssh2/src/channel.c",
+    root_path ++ "libssh2/src/comp.c",
+    root_path ++ "libssh2/src/crypt.c",
+    root_path ++ "libssh2/src/hostkey.c",
+    root_path ++ "libssh2/src/kex.c",
+    root_path ++ "libssh2/src/mac.c",
+    root_path ++ "libssh2/src/misc.c",
+    root_path ++ "libssh2/src/packet.c",
+    root_path ++ "libssh2/src/publickey.c",
+    root_path ++ "libssh2/src/scp.c",
+    root_path ++ "libssh2/src/session.c",
+    root_path ++ "libssh2/src/sftp.c",
+    root_path ++ "libssh2/src/userauth.c",
+    root_path ++ "libssh2/src/transport.c",
+    root_path ++ "libssh2/src/version.c",
+    root_path ++ "libssh2/src/knownhost.c",
+    root_path ++ "libssh2/src/agent.c",
+    root_path ++ "libssh2/src/mbedtls.c",
+    root_path ++ "libssh2/src/pem.c",
+    root_path ++ "libssh2/src/keepalive.c",
+    root_path ++ "libssh2/src/global.c",
+    root_path ++ "libssh2/src/blowfish.c",
+    root_path ++ "libssh2/src/bcrypt_pbkdf.c",
+    root_path ++ "libssh2/src/agent_win.c",
 };
 
-pub const include_dir = pathJoinRoot(&.{ "c", "include" });
-const config_dir = pathJoinRoot(&.{"config"});
-
-pub const Options = struct {
-    mbedtls_include_dir: ?[]const u8 = null,
-};
+pub const include_dir = root_path ++ "libssh2/include";
+const config_dir = root_path ++ "config";
 
 pub fn create(
     b: *std.build.Builder,
     target: std.zig.CrossTarget,
     mode: std.builtin.Mode,
-    opts: Options,
 ) *std.build.LibExeObjStep {
     var ret = b.addStaticLibrary("ssh2", null);
     ret.setTarget(target);
@@ -63,9 +47,6 @@ pub fn create(
     ret.addIncludeDir(config_dir);
     ret.addCSourceFiles(srcs, &.{});
     ret.linkLibC();
-
-    if (opts.mbedtls_include_dir) |mbedtls_include|
-        ret.addIncludeDir(mbedtls_include);
 
     ret.defineCMacro("LIBSSH2_MBEDTLS", null);
     if (target.isWindows()) {
