@@ -8,8 +8,8 @@ pub fn build(b: *std.build.Builder) void {
 
     const tls = mbedtls.create(b, target, mode);
     const ssh2 = libssh2.create(b, target, mode);
-    tls.link(ssh2);
-    ssh2.install();
+    tls.link(ssh2.step);
+    ssh2.step.install();
 
     const test_step = b.step("test", "fake test step for now");
     _ = test_step;
