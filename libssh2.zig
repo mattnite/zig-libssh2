@@ -1,51 +1,39 @@
 const std = @import("std");
 
 fn root() []const u8 {
-    return std.fs.path.dirname(@src().file) orelse ".";
+    return std.fs.path.dirname(@src().file) orelse unreachable;
 }
 
-fn pathJoinRoot(comptime components: []const []const u8) []const u8 {
-    var ret = root();
-    inline for (components) |component|
-        ret = ret ++ std.fs.path.sep_str ++ component;
-
-    return ret;
-}
-
-const srcs = blk: {
-    var ret = &.{
-        root() ++ "/libssh2/src/channel.c",
-        //pathJoinRoot(&.{ "libssh2", "src", "channel.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "comp.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "crypt.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "hostkey.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "kex.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "mac.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "misc.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "packet.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "publickey.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "scp.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "session.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "sftp.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "userauth.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "transport.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "version.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "knownhost.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "agent.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "mbedtls.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "pem.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "keepalive.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "global.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "blowfish.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "bcrypt_pbkdf.c" }),
-        pathJoinRoot(&.{ "libssh2", "src", "agent_win.c" }),
-    };
-
-    break :blk ret;
+const root_path = root() ++ "/";
+const srcs = &.{
+    root_path ++ "libssh2/src/channel.c",
+    root_path ++ "libssh2/src/comp.c",
+    root_path ++ "libssh2/src/crypt.c",
+    root_path ++ "libssh2/src/hostkey.c",
+    root_path ++ "libssh2/src/kex.c",
+    root_path ++ "libssh2/src/mac.c",
+    root_path ++ "libssh2/src/misc.c",
+    root_path ++ "libssh2/src/packet.c",
+    root_path ++ "libssh2/src/publickey.c",
+    root_path ++ "libssh2/src/scp.c",
+    root_path ++ "libssh2/src/session.c",
+    root_path ++ "libssh2/src/sftp.c",
+    root_path ++ "libssh2/src/userauth.c",
+    root_path ++ "libssh2/src/transport.c",
+    root_path ++ "libssh2/src/version.c",
+    root_path ++ "libssh2/src/knownhost.c",
+    root_path ++ "libssh2/src/agent.c",
+    root_path ++ "libssh2/src/mbedtls.c",
+    root_path ++ "libssh2/src/pem.c",
+    root_path ++ "libssh2/src/keepalive.c",
+    root_path ++ "libssh2/src/global.c",
+    root_path ++ "libssh2/src/blowfish.c",
+    root_path ++ "libssh2/src/bcrypt_pbkdf.c",
+    root_path ++ "libssh2/src/agent_win.c",
 };
 
-pub const include_dir = pathJoinRoot(&.{ "libssh2", "include" });
-const config_dir = pathJoinRoot(&.{"config"});
+pub const include_dir = root_path ++ "libssh2/include";
+const config_dir = root_path ++ "config";
 
 pub fn create(
     b: *std.build.Builder,
