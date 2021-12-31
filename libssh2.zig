@@ -46,15 +46,10 @@ const srcs = blk: {
 pub const include_dir = pathJoinRoot(&.{ "c", "include" });
 const config_dir = pathJoinRoot(&.{"config"});
 
-pub const Options = struct {
-    mbedtls_include_dir: ?[]const u8 = null,
-};
-
 pub fn create(
     b: *std.build.Builder,
     target: std.zig.CrossTarget,
     mode: std.builtin.Mode,
-    opts: Options,
 ) *std.build.LibExeObjStep {
     var ret = b.addStaticLibrary("ssh2", null);
     ret.setTarget(target);
@@ -63,9 +58,6 @@ pub fn create(
     ret.addIncludeDir(config_dir);
     ret.addCSourceFiles(srcs, &.{});
     ret.linkLibC();
-
-    if (opts.mbedtls_include_dir) |mbedtls_include|
-        ret.addIncludeDir(mbedtls_include);
 
     ret.defineCMacro("LIBSSH2_MBEDTLS", null);
     if (target.isWindows()) {
