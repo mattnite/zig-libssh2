@@ -14,7 +14,8 @@ fn pathJoinRoot(comptime components: []const []const u8) []const u8 {
 
 const srcs = blk: {
     var ret = &.{
-        pathJoinRoot(&.{ "libssh2", "src", "channel.c" }),
+        root() ++ "/libssh2/src/channel.c",
+        //pathJoinRoot(&.{ "libssh2", "src", "channel.c" }),
         pathJoinRoot(&.{ "libssh2", "src", "comp.c" }),
         pathJoinRoot(&.{ "libssh2", "src", "crypt.c" }),
         pathJoinRoot(&.{ "libssh2", "src", "hostkey.c" }),
