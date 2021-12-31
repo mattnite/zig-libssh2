@@ -84,6 +84,11 @@ jobs:
       with:
         version: master
 
+    - name: Setup Gyro
+      uses: mattnite/setup-gyro@v1
+      with:
+        access-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build and Test Debug
       if: ${{ matrix.mode == 'debug' }}
       run: gyro build test
