@@ -20,9 +20,12 @@ const libssh2 = @import("path/to/libssh2.zig");
 pub fn build(b: *std.build.Builder) void {
     // ...
 
-    const lib = libssh2.create(b, target, mode);
+    const lib = libssh2.create(b, target, optimize);
 
-    const exe = b.addExecutable("my-program", "src/main.zig");
+    const exe = b.addExecutable(.{
+        .name = "my-program",
+        .root_source_file = .{ .path = "src/main.zig" },
+    });
     lib.link(exe);
 }
 ```
