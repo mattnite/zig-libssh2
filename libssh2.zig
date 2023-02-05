@@ -47,11 +47,13 @@ pub const Library = struct {
 pub fn create(
     b: *std.build.Builder,
     target: std.zig.CrossTarget,
-    mode: std.builtin.Mode,
+    optimize: std.builtin.OptimizeMode,
 ) Library {
-    var ret = b.addStaticLibrary("ssh2", null);
-    ret.setTarget(target);
-    ret.setBuildMode(mode);
+    const ret = b.addStaticLibrary(.{
+        .name = "ssh2",
+        .target = target,
+        .optimize = optimize,
+    });
     ret.addIncludePath(include_dir);
     ret.addIncludePath(config_dir);
     ret.addCSourceFiles(srcs, &.{});
